@@ -3,15 +3,15 @@ package zip.hyeon.snslogintemplate.domain.auth.entity;
 import lombok.Getter;
 
 @Getter
-public enum AuthSNS {
+public enum Provider {
     GITHUB("GITHUB"),
     GOOGLE("GOOGLE"),
     NAVER("NAVER"),
     KAKAO("KAKAO");
 
-    private final String sns;
+    private final String provider;
 
-    AuthSNS(String sns) {
-        this.sns = sns;
+    Provider(String provider) {
+        this.provider = provider;
     }
 }

@@ -29,19 +29,19 @@ public class AuthEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String provider;
+    private String providerId;
 
     @Enumerated(EnumType.STRING)
-    private AuthSNS sns;
+    private Provider provider;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    public static AuthEntity toEntity(String provider, AuthSNS sns) {
+    public static AuthEntity toEntity(String providerId, Provider provider) {
         return AuthEntity.builder()
+                .providerId(providerId)
                 .provider(provider)
-                .sns(sns)
                 .build();
     }
 }
