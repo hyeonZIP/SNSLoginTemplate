@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum UserRole {
+    ROLE_UNRANK("ROLE_UNRANK"),
     ROLE_IRON("ROLE_IRON"),
     ROLE_BRONZE("ROLE_BRONZE"),
     ROLE_SILVER("ROLE_SILVER"),

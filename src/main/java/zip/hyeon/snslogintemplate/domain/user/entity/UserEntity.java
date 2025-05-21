@@ -28,6 +28,19 @@ public class UserEntity extends BaseEntity {
 
     private String name;
 
+    private String email;
+
+    private String profile;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    public static UserEntity register(String name, String email, String profile, UserRole role){
+        return UserEntity.builder()
+                .name(name)
+                .email(email)
+                .profile(profile)
+                .role(role)
+                .build();
+    }
 }
