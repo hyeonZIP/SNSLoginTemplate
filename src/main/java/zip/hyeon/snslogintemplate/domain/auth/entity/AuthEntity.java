@@ -36,12 +36,13 @@ public class AuthEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
+    private UserEntity user;
 
-    public static AuthEntity toEntity(String providerId, Provider provider) {
+    public static AuthEntity toEntity(Provider provider, String providerId, UserEntity user) {
         return AuthEntity.builder()
                 .providerId(providerId)
                 .provider(provider)
+                .user(user)
                 .build();
     }
 }
