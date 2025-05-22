@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum Provider {
-    GITHUB("GITHUB"),
-    GOOGLE("GOOGLE"),
-    NAVER("NAVER"),
-    KAKAO("KAKAO");
+    GITHUB("github"),
+    GOOGLE("google"),
+    NAVER("naver"),
+    KAKAO("kakao");
 
     private final String provider;
 
