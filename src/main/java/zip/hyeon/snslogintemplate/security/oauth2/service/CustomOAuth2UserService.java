@@ -50,7 +50,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private UserEntity findOrCreateUser(OAuth2UserDTO oAuth2UserDTO) {
 
         Provider provider = oAuth2UserDTO.getProvider();
-        Long providerId = oAuth2UserDTO.getProviderId();
+        String providerId = oAuth2UserDTO.getProviderId();
 
         Optional<AuthEntity> authEntity = authRepository.findByProviderAndProviderId(provider, providerId);
 
@@ -64,7 +64,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     /**
      * Auth 객체 생성을 위해 defaultUser 생성
      */
-    private UserEntity createTempUser(Provider provider, Long providerId) {
+    private UserEntity createTempUser(Provider provider, String providerId) {
 
         // 1. Auth 객체 생성을 위한 defaultUser 생성 및 저장
         UserEntity defaultUser = UserEntity.createDefaultUser();

@@ -6,13 +6,18 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zip.hyeon.snslogintemplate.domain.auth.entity.AuthEntity;
 import zip.hyeon.snslogintemplate.domain.global.BaseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,6 +26,10 @@ import zip.hyeon.snslogintemplate.domain.global.BaseEntity;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity extends BaseEntity {
+
+    private static final String DEFAULT_NAME = "default name";
+    private static final String DEFAULT_EMAIL = "default email";
+    private static final String DEFAULT_PROFILE = "default profile";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,12 +44,16 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public static UserEntity register(String name, String email, String profile, UserRole role){
+    @OneToMany(mappedBy = "user")
+    private List<AuthEntity> auth = new ArrayList<>();
+
+    public static UserEntity createDefaultUser() {
+
         return UserEntity.builder()
-                .name(name)
-                .email(email)
-                .profile(profile)
-                .role(role)
+                .name(DEFAULT_NAME)
+                .email(DEFAULT_EMAIL)
+                .profile(DEFAULT_PROFILE)
+                .role(UserRole.ROLE_UNRANK)
                 .build();
     }
 }

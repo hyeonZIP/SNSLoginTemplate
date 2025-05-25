@@ -45,4 +45,12 @@ public class AuthEntity extends BaseEntity {
                 .user(user)
                 .build();
     }
+
+    public static AuthEntity newAuth(Provider provider, String providerId, UserEntity user) {
+        return AuthEntity.builder()
+                .providerId(providerId)
+                .provider(provider)
+                .user(user)
+                .build();
+    }
 }
