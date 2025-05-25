@@ -10,8 +10,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import zip.hyeon.snslogintemplate.security.oauth2.CustomOAuth2UserService;
-import zip.hyeon.snslogintemplate.security.oauth2.OAuth2SuccessHandler;
+import zip.hyeon.snslogintemplate.security.oauth2.handler.OAuth2SuccessHandler;
+import zip.hyeon.snslogintemplate.security.oauth2.service.CustomOAuth2UserService;
 
 @Configuration
 @EnableWebSecurity
