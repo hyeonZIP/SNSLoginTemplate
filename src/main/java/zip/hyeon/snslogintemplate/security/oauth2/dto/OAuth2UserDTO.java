@@ -1,9 +1,11 @@
-package zip.hyeon.snslogintemplate.security.oauth2;
+package zip.hyeon.snslogintemplate.security.oauth2.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import zip.hyeon.snslogintemplate.domain.auth.entity.Provider;
+import zip.hyeon.snslogintemplate.domain.user.entity.UserRole;
 import zip.hyeon.snslogintemplate.exception.GlobalException;
 import zip.hyeon.snslogintemplate.exception.ResultCode;
 
@@ -18,11 +20,11 @@ import java.util.Map;
 @Getter
 public class OAuth2UserDTO {
 
-    private String providerId;
-    private String provider;
+    private Provider provider;
+    private Long providerId;
     private String name;
-    private String email;
     private String profile;
+    private String email;
 
     public static OAuth2UserDTO of(String registrationId, Map<String, Object> attributes) {
         return switch(registrationId){
@@ -38,11 +40,16 @@ public class OAuth2UserDTO {
     private static OAuth2UserDTO ofKakao(Map<String, Object> attributes){
         Map<String, Object> account = (Map<String,Object>) attributes.get("kakao_account");
         Map<String, Object> profile = (Map<String,Object>) account.get("profile");
+        log.info("attributes = {}", attributes);
+        log.info("account = {}", account);
+        log.info("profile = {}", profile);
 
         return OAuth2UserDTO.builder()
+                .provider(Provider.KAKAO)
+                .providerId((Long) attributes.get("id"))
                 .name((String) profile.get("nickname"))
-                .email((String) account.get("email"))
                 .profile((String) profile.get("profile_image_url"))
+                .email((String) account.get("email"))
                 .build();
     }
 }
