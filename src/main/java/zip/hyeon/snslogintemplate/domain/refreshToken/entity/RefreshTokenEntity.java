@@ -29,9 +29,6 @@ public class RefreshTokenEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private RefreshTokenState state;
-
     private String refreshToken;
 
     @ManyToOne
@@ -42,7 +39,6 @@ public class RefreshTokenEntity extends BaseEntity {
         return RefreshTokenEntity.builder()
                 .refreshToken(refreshToken)
                 .user(user)
-                .state(RefreshTokenState.USABLE)
                 .build();
     }
 }
