@@ -55,7 +55,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Optional<AuthEntity> authEntity = authRepository.findByProviderAndProviderId(provider, providerId);
 
         if (authEntity.isPresent()) {
-            return authEntity.get().getUser();
+            UserEntity userEntity = authEntity.get().getUser();
+            log.info("기존 사용자 불러오기 userId = {}, AuthList = {}", userEntity.getId(), userEntity.getAuth());
+            return userEntity;
         }
 
         return createTempUser(provider, providerId);
@@ -71,9 +73,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         UserEntity savedUser = userRepository.save(defaultUser);
 
         // 2. Auth 객체 생성 및 저장
-        log.info("Auth 객체 생성 및 저장 provider = {}, providerId = {}", provider.getProvider(), providerId);
         AuthEntity authEntity = AuthEntity.newAuth(provider, providerId, savedUser);
         authRepository.save(authEntity);
+
+        log.info("Auth 객체 생성 및 저장 provider = {}, providerId = {}", provider.getProvider(), providerId);
+        log.info("새로운 사용자 생성 userId = {}, AuthList = {}", savedUser.getId(), savedUser.getAuth());
 
         return savedUser;
     }
