@@ -8,9 +8,9 @@ public enum JwtType {
     REFRESH_TOKEN("REFRESH_TOKEN", 60*60*24*7); // 7일
 
     private final String category;
-    private final long expiredTime;
+    private final int expiredTime;
 
-    JwtType(String category, long expiredTime){
+    JwtType(String category, int expiredTime){
         this.category = category;
         this.expiredTime = expiredTime;
     }

@@ -15,6 +15,7 @@ import zip.hyeon.snslogintemplate.security.jwt.dto.JwtRequestDTO;
 import zip.hyeon.snslogintemplate.security.jwt.dto.JwtDTO;
 import zip.hyeon.snslogintemplate.security.jwt.facade.JwtFacade;
 import zip.hyeon.snslogintemplate.security.oauth2.dto.CustomOAuth2User;
+import zip.hyeon.snslogintemplate.security.utils.CookieUtils;
 
 import java.io.IOException;
 
@@ -43,6 +44,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         // 2. RefreshToken 저장
         jwtFacade.saveRefreshToken(RefreshTokenDTO.of(userId, jwtDTO.getRefreshToken()));
 
-        //TODO SecurityContextHolder 에 인증객체 저장하기
+        // 3. response 에 Token 을 담은 Cookie 저장
+        CookieUtils.setTokenCookie(jwtDTO, response);
+
+        // 4. redirect uri 지정 (임시)
+        response.sendRedirect("http://localhost:8080/login-success");
     }
 }
