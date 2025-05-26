@@ -16,7 +16,7 @@ public class JwtProvider {
     private final JwtKeyManager jwtKeyManager;
 
     /**
-     * Strategy 1. 일회용 RT, AT는 클라이언트에만, RT는 데이터베이스에만
+     * 토큰 생성
      */
     public String generateToken(Long userId, UserRole role, JwtType token) {
         Date now = new Date();
