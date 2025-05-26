@@ -1,10 +1,12 @@
-package zip.hyeon.snslogintemplate.security.jwt;
+package zip.hyeon.snslogintemplate.security.jwt.provider;
 
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import zip.hyeon.snslogintemplate.domain.user.entity.UserRole;
+import zip.hyeon.snslogintemplate.security.jwt.JwtKeyManager;
+import zip.hyeon.snslogintemplate.security.jwt.JwtType;
 import zip.hyeon.snslogintemplate.security.jwt.dto.JwtDTO;
 import zip.hyeon.snslogintemplate.security.jwt.dto.JwtRequestDTO;
 
