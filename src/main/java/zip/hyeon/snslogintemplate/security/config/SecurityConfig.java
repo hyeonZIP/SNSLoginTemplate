@@ -9,7 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import zip.hyeon.snslogintemplate.security.jwt.filter.JwtAuthenticationFilter;
 import zip.hyeon.snslogintemplate.security.oauth2.handler.OAuth2SuccessHandler;
 import zip.hyeon.snslogintemplate.security.oauth2.service.CustomOAuth2UserService;
 
@@ -20,6 +22,7 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() { // security 를 적용하지 않을 리소스
@@ -40,6 +43,9 @@ public class SecurityConfig {
                 .sessionManagement(c ->
                         c.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용하지 않음
         ;
+
+        http
+                .addFilterBefore(jwtAuthenticationFilter, OAuth2AuthorizationRequestRedirectFilter.class);
 
         http
                 .oauth2Login(oauth2 -> oauth2

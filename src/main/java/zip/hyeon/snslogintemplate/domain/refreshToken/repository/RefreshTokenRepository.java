@@ -2,6 +2,10 @@ package zip.hyeon.snslogintemplate.domain.refreshToken.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import zip.hyeon.snslogintemplate.domain.refreshToken.entity.RefreshTokenEntity;
+import zip.hyeon.snslogintemplate.domain.user.entity.UserEntity;
+
+import java.util.Optional;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshTokenEntity, Long> {
+    Optional<RefreshTokenEntity> findByUser(UserEntity user);
 }

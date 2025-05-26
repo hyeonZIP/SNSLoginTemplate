@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import zip.hyeon.snslogintemplate.domain.refreshToken.dto.RefreshTokenDTO;
 import zip.hyeon.snslogintemplate.domain.user.entity.UserRole;
+import zip.hyeon.snslogintemplate.security.jwt.JwtProvider;
 import zip.hyeon.snslogintemplate.security.jwt.dto.JwtRequestDTO;
 import zip.hyeon.snslogintemplate.security.jwt.dto.JwtDTO;
 import zip.hyeon.snslogintemplate.security.jwt.facade.JwtFacade;
@@ -25,6 +26,7 @@ import java.io.IOException;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtFacade jwtFacade;
+    private final JwtProvider jwtProvider;
 
     @Override
     @Transactional
@@ -36,7 +38,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         UserRole userRole = customOAuth2User.getUserRole();
 
         // 1. 토큰 발급
-        JwtDTO jwtDTO = jwtFacade.issueToken(JwtRequestDTO.of(userId, userRole));
+        JwtDTO jwtDTO = jwtProvider.generateAccessTokenAndRefreshToken(JwtRequestDTO.of(userId, userRole));
 
         log.info("Access Token = {}", jwtDTO.getAccessToken());
         log.info("Refresh Token = {}", jwtDTO.getRefreshToken());
