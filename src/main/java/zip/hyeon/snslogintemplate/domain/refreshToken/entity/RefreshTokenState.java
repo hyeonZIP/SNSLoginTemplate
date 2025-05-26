@@ -1,4 +1,4 @@
-package zip.hyeon.snslogintemplate.security.jwt.refreshToken.entity;
+package zip.hyeon.snslogintemplate.domain.refreshToken.entity;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package zip.hyeon.snslogintemplate.security.jwt.refreshToken.entity;
+package zip.hyeon.snslogintemplate.domain.refreshToken.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,11 +35,11 @@ public class RefreshTokenEntity extends BaseEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public static RefreshTokenEntity toEntity(String refreshToken, UserEntity user, RefreshTokenState state){
+    public static RefreshTokenEntity issueRefreshToken(String refreshToken, UserEntity user){
         return RefreshTokenEntity.builder()
                 .refreshToken(refreshToken)
                 .user(user)
-                .state(state)
+                .state(RefreshTokenState.USABLE)
                 .build();
     }
 }
