@@ -6,18 +6,13 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import zip.hyeon.snslogintemplate.domain.auth.entity.AuthEntity;
 import zip.hyeon.snslogintemplate.domain.global.BaseEntity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -43,9 +38,6 @@ public class UserEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
-
-    @OneToMany(mappedBy = "user")
-    private List<AuthEntity> auth = new ArrayList<>();
 
     public static UserEntity createDefaultUser() {
 
