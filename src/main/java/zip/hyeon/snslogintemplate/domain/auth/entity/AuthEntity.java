@@ -38,14 +38,6 @@ public class AuthEntity extends BaseEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public static AuthEntity toEntity(Provider provider, String providerId, UserEntity user) {
-        return AuthEntity.builder()
-                .providerId(providerId)
-                .provider(provider)
-                .user(user)
-                .build();
-    }
-
     public static AuthEntity newAuth(Provider provider, String providerId, UserEntity user) {
         return AuthEntity.builder()
                 .providerId(providerId)
