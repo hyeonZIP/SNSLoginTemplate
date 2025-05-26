@@ -1,6 +1,8 @@
 package zip.hyeon.snslogintemplate.domain.refreshToken.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +29,7 @@ public class RefreshTokenEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private RefreshTokenState state;
 
     private String refreshToken;
@@ -35,7 +38,7 @@ public class RefreshTokenEntity extends BaseEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public static RefreshTokenEntity issueRefreshToken(String refreshToken, UserEntity user){
+    public static RefreshTokenEntity issueRefreshToken(String refreshToken, UserEntity user) {
         return RefreshTokenEntity.builder()
                 .refreshToken(refreshToken)
                 .user(user)
