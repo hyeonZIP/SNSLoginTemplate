@@ -11,7 +11,7 @@ import zip.hyeon.snslogintemplate.domain.user.service.UserService;
 import zip.hyeon.snslogintemplate.security.jwt.JwtProvider;
 import zip.hyeon.snslogintemplate.security.jwt.JwtType;
 import zip.hyeon.snslogintemplate.security.jwt.dto.JwtRequestDTO;
-import zip.hyeon.snslogintemplate.security.jwt.dto.JwtResponseDTO;
+import zip.hyeon.snslogintemplate.security.jwt.dto.JwtDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class JwtFacade {
     private final RefreshTokenService refreshTokenService;
     private final UserService userService;
 
-    public JwtResponseDTO issueToken(JwtRequestDTO jwtRequestDTO) {
+    public JwtDTO issueToken(JwtRequestDTO jwtRequestDTO) {
         Long userId = jwtRequestDTO.getUserId();
         UserRole userRole = jwtRequestDTO.getUserRole();
 
@@ -29,7 +29,7 @@ public class JwtFacade {
         String accessToken = jwtProvider.generateToken(userId, userRole, JwtType.ACCESS_TOKEN);
         String refreshToken = jwtProvider.generateToken(userId, userRole, JwtType.REFRESH_TOKEN);
 
-        return JwtResponseDTO.of(accessToken, refreshToken);
+        return JwtDTO.of(accessToken, refreshToken);
     }
 
     public void saveRefreshToken(RefreshTokenDTO refreshTokenDTO) {

@@ -9,16 +9,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import zip.hyeon.snslogintemplate.domain.auth.entity.Provider;
 import zip.hyeon.snslogintemplate.domain.refreshToken.dto.RefreshTokenDTO;
 import zip.hyeon.snslogintemplate.domain.user.entity.UserRole;
-import zip.hyeon.snslogintemplate.security.jwt.JwtProvider;
-import zip.hyeon.snslogintemplate.security.jwt.JwtType;
 import zip.hyeon.snslogintemplate.security.jwt.dto.JwtRequestDTO;
-import zip.hyeon.snslogintemplate.security.jwt.dto.JwtResponseDTO;
+import zip.hyeon.snslogintemplate.security.jwt.dto.JwtDTO;
 import zip.hyeon.snslogintemplate.security.jwt.facade.JwtFacade;
 import zip.hyeon.snslogintemplate.security.oauth2.dto.CustomOAuth2User;
-import zip.hyeon.snslogintemplate.security.oauth2.dto.OAuth2UserDTO;
 
 import java.io.IOException;
 
@@ -39,13 +35,13 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         UserRole userRole = customOAuth2User.getUserRole();
 
         // 1. 토큰 발급
-        JwtResponseDTO jwtResponseDTO = jwtFacade.issueToken(JwtRequestDTO.of(userId, userRole));
+        JwtDTO jwtDTO = jwtFacade.issueToken(JwtRequestDTO.of(userId, userRole));
 
-        log.info("Access Token = {}", jwtResponseDTO.getAccessToken());
-        log.info("Refresh Token = {}", jwtResponseDTO.getRefreshToken());
+        log.info("Access Token = {}", jwtDTO.getAccessToken());
+        log.info("Refresh Token = {}", jwtDTO.getRefreshToken());
 
         // 2. RefreshToken 저장
-        jwtFacade.saveRefreshToken(RefreshTokenDTO.of(userId, jwtResponseDTO.getRefreshToken()));
+        jwtFacade.saveRefreshToken(RefreshTokenDTO.of(userId, jwtDTO.getRefreshToken()));
 
         //TODO SecurityContextHolder 에 인증객체 저장하기
     }

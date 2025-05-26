@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
-public class JwtResponseDTO {
+public class JwtDTO {
     private String accessToken;
     private String refreshToken;
 
@@ -15,8 +15,8 @@ public class JwtResponseDTO {
      * 1. 회원가입시
      * 2. 리프레쉬 토큰 사용시
      */
-    public static JwtResponseDTO of(String accessToken, String refreshToken){
-        return JwtResponseDTO.builder()
+    public static JwtDTO of(String accessToken, String refreshToken){
+        return JwtDTO.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
