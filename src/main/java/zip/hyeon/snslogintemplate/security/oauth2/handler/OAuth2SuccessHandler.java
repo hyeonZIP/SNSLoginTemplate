@@ -9,12 +9,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import zip.hyeon.snslogintemplate.domain.refreshToken.dto.RefreshTokenDTO;
+import zip.hyeon.snslogintemplate.domain.refreshToken.dto.SaveRefreshTokenDTO;
+import zip.hyeon.snslogintemplate.domain.refreshToken.service.RefreshTokenService;
 import zip.hyeon.snslogintemplate.domain.user.entity.UserRole;
-import zip.hyeon.snslogintemplate.security.jwt.JwtProvider;
-import zip.hyeon.snslogintemplate.security.jwt.dto.JwtRequestDTO;
-import zip.hyeon.snslogintemplate.security.jwt.dto.JwtDTO;
-import zip.hyeon.snslogintemplate.security.jwt.facade.JwtFacade;
+import zip.hyeon.snslogintemplate.security.jwt.provider.JwtProvider;
+import zip.hyeon.snslogintemplate.security.jwt.provider.dto.JwtProviderRequestDTO;
+import zip.hyeon.snslogintemplate.security.jwt.provider.dto.JwtProviderResponseDTO;
 import zip.hyeon.snslogintemplate.security.oauth2.dto.CustomOAuth2User;
 import zip.hyeon.snslogintemplate.security.utils.CookieUtils;
 
@@ -25,7 +25,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
-    private final JwtFacade jwtFacade;
+    private final RefreshTokenService refreshTokenService;
     private final JwtProvider jwtProvider;
 
     @Override
@@ -38,16 +38,18 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         UserRole userRole = customOAuth2User.getUserRole();
 
         // 1. 토큰 발급
-        JwtDTO jwtDTO = jwtProvider.generateAccessTokenAndRefreshToken(JwtRequestDTO.of(userId, userRole));
+        JwtProviderRequestDTO jwtProviderRequestDTO = JwtProviderRequestDTO.of(userId, userRole);
+        JwtProviderResponseDTO jwtProviderResponseDTO = jwtProvider.generateAccessTokenAndRefreshToken(jwtProviderRequestDTO);
 
-        log.info("Access Token = {}", jwtDTO.getAccessToken());
-        log.info("Refresh Token = {}", jwtDTO.getRefreshToken());
+        log.info("Access Token = {}", jwtProviderResponseDTO.getAccessToken());
+        log.info("Refresh Token = {}", jwtProviderResponseDTO.getRefreshToken());
 
         // 2. RefreshToken 저장
-        jwtFacade.saveRefreshToken(RefreshTokenDTO.of(userId, jwtDTO.getRefreshToken()));
+        SaveRefreshTokenDTO saveRefreshTokenDTO = SaveRefreshTokenDTO.of(userId, jwtProviderResponseDTO.getRefreshToken());
+        refreshTokenService.save(saveRefreshTokenDTO);
 
         // 3. response 에 Token 을 담은 Cookie 저장
-        CookieUtils.setTokenCookie(jwtDTO, response);
+        CookieUtils.setTokenCookie(jwtProviderResponseDTO, response);
 
         // 4. redirect uri 지정 (임시)
         response.sendRedirect("http://localhost:8080/login-success");
