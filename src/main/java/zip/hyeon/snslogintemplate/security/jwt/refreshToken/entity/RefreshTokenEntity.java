@@ -1,4 +1,4 @@
-package zip.hyeon.snslogintemplate.domain.refreshToken.entity;
+package zip.hyeon.snslogintemplate.security.jwt.refreshToken.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package zip.hyeon.snslogintemplate.domain.refreshToken.dto;
+package zip.hyeon.snslogintemplate.security.jwt.refreshToken.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
