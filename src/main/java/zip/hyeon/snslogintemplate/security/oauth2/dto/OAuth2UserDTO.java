@@ -16,6 +16,7 @@ import java.util.Map;
 @Getter
 public class OAuth2UserDTO {
 
+    private static final String UNDER_BAR = "_";
     private String provider;
     private String name;
     private String profile;
@@ -27,7 +28,7 @@ public class OAuth2UserDTO {
 //            case "google" -> ofGoogle(attributes);
 //            case "github" -> ofGithub(attributes);
 //            case "naver" -> ofNaver(attributes);
-            default -> throw new IllegalArgumentException("불가능한 소셜로그인 registrationId : " + registrationId);
+            default -> throw new IllegalArgumentException("registrationId 에러 : " + registrationId);
         };
     }
 
@@ -40,7 +41,7 @@ public class OAuth2UserDTO {
         log.info("profile = {}", profile);
 
         return OAuth2UserDTO.builder()
-                .provider("kakao_" + attributes.get("id"))
+                .provider(Provider.KAKAO.getProvider() + UNDER_BAR + attributes.get("id"))
                 .name(String.valueOf(profile.get("nickname")))
                 .profile(String.valueOf(profile.get("profile_image_url")))
                 .email(String.valueOf(account.get("email")))
