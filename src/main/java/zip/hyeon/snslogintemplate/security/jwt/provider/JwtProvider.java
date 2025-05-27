@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import zip.hyeon.snslogintemplate.domain.user.entity.UserRole;
 import zip.hyeon.snslogintemplate.security.jwt.JwtKeyManager;
 import zip.hyeon.snslogintemplate.security.jwt.JwtType;
-import zip.hyeon.snslogintemplate.security.jwt.provider.dto.JwtProviderResponseDTO;
 import zip.hyeon.snslogintemplate.security.jwt.provider.dto.JwtProviderRequestDTO;
+import zip.hyeon.snslogintemplate.security.jwt.provider.dto.JwtProviderResponseDTO;
 
 import java.util.Date;
 
@@ -33,9 +33,9 @@ public class JwtProvider {
         Date exp = new Date(System.currentTimeMillis() + token.getExpiredTime());
 
         return Jwts.builder()
-                .claim("category", token.getCategory())
-                .claim("userId", userId)
-                .claim("userRole", role.getUserRole())
+                .claim(ClaimType.CATEGORY.getKey(), token.getCategory())
+                .claim(ClaimType.USER_ID.getKey(), userId)
+                .claim(ClaimType.USER_ROLE.getKey(), role.getUserRole())
                 .expiration(exp)
                 .signWith(jwtKeyManager.getSecretKey(), Jwts.SIG.HS512)
                 .compact();
