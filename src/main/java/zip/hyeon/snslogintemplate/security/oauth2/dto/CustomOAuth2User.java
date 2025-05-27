@@ -1,10 +1,10 @@
 package zip.hyeon.snslogintemplate.security.oauth2.dto;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import zip.hyeon.snslogintemplate.domain.user.entity.UserEntity;
 import zip.hyeon.snslogintemplate.domain.user.entity.UserRole;
 
 import java.util.Collection;
@@ -19,7 +19,8 @@ import java.util.Map;
 public class CustomOAuth2User implements OAuth2User {
 
     private final OAuth2UserDTO oAuth2UserDTO;
-    private final UserEntity user;
+    private final Long userId;
+    private final UserRole userRole;
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -36,15 +37,11 @@ public class CustomOAuth2User implements OAuth2User {
         return oAuth2UserDTO.getName();
     }
 
-    public UserRole getUserRole() {
-        return user.getRole();
+    public Long getUserId(){
+        return userId;
     }
 
-    public Long getUserId() {
-        return user.getId();
-    }
-
-    public OAuth2UserDTO getOAuth2UserDTO() {
-        return oAuth2UserDTO;
+    public UserRole getUserRole(){
+        return userRole;
     }
 }
