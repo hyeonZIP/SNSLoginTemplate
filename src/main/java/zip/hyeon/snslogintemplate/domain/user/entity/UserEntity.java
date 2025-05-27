@@ -25,6 +25,7 @@ public class UserEntity extends BaseEntity {
     private static final String DEFAULT_NAME = "default name";
     private static final String DEFAULT_EMAIL = "default email";
     private static final String DEFAULT_PROFILE = "default profile";
+    private static final String DEFAULT_LOGIN = "default login";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +40,8 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    private String providerId;
+
     public static UserEntity createDefaultUser() {
 
         return UserEntity.builder()
@@ -46,6 +49,7 @@ public class UserEntity extends BaseEntity {
                 .email(DEFAULT_EMAIL)
                 .profile(DEFAULT_PROFILE)
                 .role(UserRole.ROLE_UNRANK)
+                .providerId(DEFAULT_LOGIN)
                 .build();
     }
 }
