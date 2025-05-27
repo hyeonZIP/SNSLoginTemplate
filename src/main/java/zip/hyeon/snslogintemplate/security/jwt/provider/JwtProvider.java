@@ -30,8 +30,7 @@ public class JwtProvider {
     }
 
     private String generateToken(Long userId, UserRole role, JwtType token) {
-        Date now = new Date();
-        Date exp = new Date(now.getTime() + token.getExpiredTime());
+        Date exp = new Date(System.currentTimeMillis() + token.getExpiredTime());
 
         return Jwts.builder()
                 .claim("category", token.getCategory())
