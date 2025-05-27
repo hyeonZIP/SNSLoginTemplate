@@ -1,4 +1,4 @@
-package zip.hyeon.snslogintemplate.security.jwt.dto;
+package zip.hyeon.snslogintemplate.security.jwt.provider.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,17 +8,13 @@ import lombok.NoArgsConstructor;
 import zip.hyeon.snslogintemplate.domain.user.entity.UserRole;
 
 @Getter
-@Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class JwtRequestDTO {
+public class JwtProviderRequestDTO {
     private Long userId;
     private UserRole userRole;
 
-    public static JwtRequestDTO of(Long userId, UserRole userRole) {
-        return JwtRequestDTO.builder()
-                .userId(userId)
-                .userRole(userRole)
-                .build();
+    public static JwtProviderRequestDTO of(Long userId, UserRole userRole) {
+        return new JwtProviderRequestDTO(userId, userRole);
     }
 }
