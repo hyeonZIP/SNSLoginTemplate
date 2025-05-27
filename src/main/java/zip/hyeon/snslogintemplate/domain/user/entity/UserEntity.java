@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zip.hyeon.snslogintemplate.domain.global.BaseEntity;
+import zip.hyeon.snslogintemplate.security.oauth2.dto.OAuth2UserDTO;
 
 @Entity
 @Getter
@@ -40,16 +41,26 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    private String providerId;
+    private String provider;
 
-    public static UserEntity createDefaultUser() {
+    public static UserEntity createSocialLoginUser(OAuth2UserDTO oAuth2UserDTO){
+        return UserEntity.builder()
+                .name(oAuth2UserDTO.getName())
+                .email(oAuth2UserDTO.getEmail())
+                .profile(oAuth2UserDTO.getProfile())
+                .role(UserRole.ROLE_UNRANK)
+                .provider(oAuth2UserDTO.getProvider())
+                .build();
+    }
+
+    public static UserEntity createDefaultLoginUser() {
 
         return UserEntity.builder()
                 .name(DEFAULT_NAME)
                 .email(DEFAULT_EMAIL)
                 .profile(DEFAULT_PROFILE)
                 .role(UserRole.ROLE_UNRANK)
-                .providerId(DEFAULT_LOGIN)
+                .provider(DEFAULT_LOGIN)
                 .build();
     }
 }
