@@ -4,16 +4,14 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.util.WebUtils;
-import zip.hyeon.snslogintemplate.exception.GlobalException;
-import zip.hyeon.snslogintemplate.exception.ResultCode;
 import zip.hyeon.snslogintemplate.security.jwt.JwtType;
-import zip.hyeon.snslogintemplate.security.jwt.dto.JwtDTO;
+import zip.hyeon.snslogintemplate.security.jwt.provider.dto.JwtProviderResponseDTO;
 
 public class CookieUtils {
 
-    public static void setTokenCookie(JwtDTO jwtDTO, HttpServletResponse response) {
-        setResponse(JwtType.ACCESS_TOKEN.getCategory(), jwtDTO.getAccessToken(), JwtType.ACCESS_TOKEN.getExpiredTime(), response);
-        setResponse(JwtType.REFRESH_TOKEN.getCategory(), jwtDTO.getRefreshToken(), JwtType.REFRESH_TOKEN.getExpiredTime(), response);
+    public static void setTokenCookie(JwtProviderResponseDTO jwtProviderResponseDTO, HttpServletResponse response) {
+        setResponse(JwtType.ACCESS_TOKEN.getCategory(), jwtProviderResponseDTO.getAccessToken(), JwtType.ACCESS_TOKEN.getExpiredTime(), response);
+        setResponse(JwtType.REFRESH_TOKEN.getCategory(), jwtProviderResponseDTO.getRefreshToken(), JwtType.REFRESH_TOKEN.getExpiredTime(), response);
     }
 
     private static void setResponse(String key, String value, int expiredTime, HttpServletResponse response) {
@@ -24,15 +22,27 @@ public class CookieUtils {
         response.addCookie(cookie);
     }
 
-    public static Cookie getCookie(String key, HttpServletRequest request){
-        Cookie cookie = WebUtils.getCookie(request, key);
+    public static JwtProviderResponseDTO getAccessTokenAndRefreshToken(HttpServletRequest request) {
+        Cookie accessTokenCookie = WebUtils.getCookie(request, JwtType.ACCESS_TOKEN.getCategory());
+        Cookie refreshTokenCookie = WebUtils.getCookie(request, JwtType.REFRESH_TOKEN.getCategory());
 
-        validateCookie(cookie);
+        validateCookie(accessTokenCookie, refreshTokenCookie);
 
-        return cookie;
+        String accessToken = accessTokenCookie.getValue();
+        String refreshToken = refreshTokenCookie.getValue();
+
+        validateTokenIsNull(accessToken, refreshToken);
+
+        return JwtProviderResponseDTO.of(accessToken, refreshToken);
     }
 
-    private static void validateCookie(Cookie cookie){
-        if (cookie == null) throw new GlobalException(ResultCode.COOKIE_NOT_FOUND);
+    private static void validateTokenIsNull(String accessToken, String refreshToken) {
+        if (accessToken == null) throw new IllegalArgumentException("accessToken is null");
+        if (refreshToken == null) throw new IllegalArgumentException("refreshToken is null");
+    }
+
+    private static void validateCookie(Cookie accessTokenCookie, Cookie refreshTokenCookie) {
+        if (accessTokenCookie == null) throw new IllegalArgumentException("accessTokenCookie is null");
+        if (refreshTokenCookie == null) throw new IllegalArgumentException("refreshTokenCookie is null");
     }
 }
