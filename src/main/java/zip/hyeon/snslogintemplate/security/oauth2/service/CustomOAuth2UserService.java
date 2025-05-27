@@ -36,6 +36,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         UserEntity userEntity = userService.findOrCreateUser(oAuth2UserDTO);
 
         // 4. OAuth2User 반환
-        return new CustomOAuth2User(oAuth2UserDTO, userEntity);
+        return new CustomOAuth2User(oAuth2UserDTO, userEntity.getId(), userEntity.getRole());
     }
 }
