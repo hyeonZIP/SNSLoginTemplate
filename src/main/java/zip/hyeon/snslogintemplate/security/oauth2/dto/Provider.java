@@ -1,4 +1,4 @@
-package zip.hyeon.snslogintemplate.domain.auth.entity;
+package zip.hyeon.snslogintemplate.security.oauth2.dto;
 
 import lombok.Getter;
 
