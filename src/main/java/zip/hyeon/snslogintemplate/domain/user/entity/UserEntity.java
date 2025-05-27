@@ -25,7 +25,6 @@ public class UserEntity extends BaseEntity {
 
     private static final String DEFAULT_NAME = "default name";
     private static final String DEFAULT_EMAIL = "default email";
-    private static final String DEFAULT_PROFILE = "default profile";
     private static final String DEFAULT_LOGIN = "default login";
 
     @Id
@@ -36,18 +35,15 @@ public class UserEntity extends BaseEntity {
 
     private String email;
 
-    private String profile;
-
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
     private String provider;
 
-    public static UserEntity createSocialLoginUser(OAuth2UserDTO oAuth2UserDTO){
+    public static UserEntity createSocialLoginUser(OAuth2UserDTO oAuth2UserDTO) {
         return UserEntity.builder()
                 .name(oAuth2UserDTO.getName())
                 .email(oAuth2UserDTO.getEmail())
-                .profile(oAuth2UserDTO.getProfile())
                 .role(UserRole.ROLE_UNRANK)
                 .provider(oAuth2UserDTO.getProvider())
                 .build();
@@ -58,7 +54,6 @@ public class UserEntity extends BaseEntity {
         return UserEntity.builder()
                 .name(DEFAULT_NAME)
                 .email(DEFAULT_EMAIL)
-                .profile(DEFAULT_PROFILE)
                 .role(UserRole.ROLE_UNRANK)
                 .provider(DEFAULT_LOGIN)
                 .build();
