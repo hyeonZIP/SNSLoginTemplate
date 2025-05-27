@@ -46,7 +46,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         // 2. RefreshToken 저장
         SaveRefreshTokenDTO saveRefreshTokenDTO = SaveRefreshTokenDTO.of(userId, jwtProviderResponseDTO.getRefreshToken());
-        refreshTokenService.save(saveRefreshTokenDTO);
+        refreshTokenService.saveRefreshToken(saveRefreshTokenDTO);
 
         // 3. response 에 Token 을 담은 Cookie 저장
         CookieUtils.setTokenCookie(jwtProviderResponseDTO, response);
