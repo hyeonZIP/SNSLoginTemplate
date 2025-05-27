@@ -9,12 +9,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import zip.hyeon.snslogintemplate.domain.refreshToken.dto.SaveRefreshTokenDTO;
-import zip.hyeon.snslogintemplate.domain.refreshToken.service.RefreshTokenService;
 import zip.hyeon.snslogintemplate.domain.user.entity.UserRole;
 import zip.hyeon.snslogintemplate.security.jwt.provider.JwtProvider;
 import zip.hyeon.snslogintemplate.security.jwt.provider.dto.JwtProviderRequestDTO;
 import zip.hyeon.snslogintemplate.security.jwt.provider.dto.JwtProviderResponseDTO;
+import zip.hyeon.snslogintemplate.security.jwt.refreshToken.dto.SaveRefreshTokenDTO;
+import zip.hyeon.snslogintemplate.security.jwt.service.JwtService;
 import zip.hyeon.snslogintemplate.security.oauth2.dto.CustomOAuth2User;
 import zip.hyeon.snslogintemplate.security.utils.CookieUtils;
 
@@ -25,7 +25,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
-    private final RefreshTokenService refreshTokenService;
+    private final JwtService jwtService;
     private final JwtProvider jwtProvider;
 
     @Override
@@ -46,7 +46,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         // 2. RefreshToken 저장
         SaveRefreshTokenDTO saveRefreshTokenDTO = SaveRefreshTokenDTO.of(userId, jwtProviderResponseDTO.getRefreshToken());
-        refreshTokenService.saveRefreshToken(saveRefreshTokenDTO);
+        jwtService.saveRefreshToken(saveRefreshTokenDTO);
 
         // 3. response 에 Token 을 담은 Cookie 저장
         CookieUtils.setTokenCookie(jwtProviderResponseDTO, response);
