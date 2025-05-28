@@ -3,10 +3,14 @@ package zip.hyeon.snslogintemplate.security.utils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.util.WebUtils;
+import zip.hyeon.snslogintemplate.exception.example.GlobalException;
+import zip.hyeon.snslogintemplate.exception.example.ResultCode;
 import zip.hyeon.snslogintemplate.security.jwt.JwtType;
 import zip.hyeon.snslogintemplate.security.jwt.provider.dto.JwtProviderResponseDTO;
 
+@Slf4j
 public class CookieUtils {
 
     public static void setTokenCookie(JwtProviderResponseDTO jwtProviderResponseDTO, HttpServletResponse response) {
@@ -31,18 +35,20 @@ public class CookieUtils {
         String accessToken = accessTokenCookie.getValue();
         String refreshToken = refreshTokenCookie.getValue();
 
+        log.info("accessTokenCookie = {}", accessTokenCookie.getValue());
+        log.info("refreshTokenCookie = {}", refreshTokenCookie.getValue());
         validateTokenIsNull(accessToken, refreshToken);
 
         return JwtProviderResponseDTO.of(accessToken, refreshToken);
     }
 
     private static void validateTokenIsNull(String accessToken, String refreshToken) {
-        if (accessToken == null) throw new IllegalArgumentException("accessToken is null");
-        if (refreshToken == null) throw new IllegalArgumentException("refreshToken is null");
+        if (accessToken == null) throw new GlobalException(ResultCode.TOKEN_NOT_FOUND);
+        if (refreshToken == null) throw new GlobalException(ResultCode.TOKEN_NOT_FOUND);
     }
 
     private static void validateCookie(Cookie accessTokenCookie, Cookie refreshTokenCookie) {
-        if (accessTokenCookie == null) throw new IllegalArgumentException("accessTokenCookie is null");
-        if (refreshTokenCookie == null) throw new IllegalArgumentException("refreshTokenCookie is null");
+        if (accessTokenCookie == null) throw new GlobalException(ResultCode.COOKIE_NOT_FOUND);
+        if (refreshTokenCookie == null) throw new GlobalException(ResultCode.COOKIE_NOT_FOUND);
     }
 }
