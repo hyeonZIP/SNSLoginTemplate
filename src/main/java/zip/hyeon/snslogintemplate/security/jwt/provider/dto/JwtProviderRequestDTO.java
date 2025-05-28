@@ -2,7 +2,6 @@ package zip.hyeon.snslogintemplate.security.jwt.provider.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zip.hyeon.snslogintemplate.domain.user.entity.UserRole;
