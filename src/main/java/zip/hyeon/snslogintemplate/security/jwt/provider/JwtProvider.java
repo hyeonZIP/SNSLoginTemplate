@@ -19,9 +19,6 @@ public class JwtProvider {
 
     private final JwtKeyManager jwtKeyManager;
 
-    /*
-        AccessToken & RefreshToken 생성
-     */
     public JwtProviderResponseDTO generateAccessTokenAndRefreshToken(JwtProviderRequestDTO dto) {
         String accessToken = generateToken(dto.getUserId(), dto.getUserRole(), JwtType.ACCESS_TOKEN);
         String refreshToken = generateToken(dto.getUserId(), dto.getUserRole(), JwtType.REFRESH_TOKEN);
