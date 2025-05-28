@@ -1,4 +1,4 @@
-package zip.hyeon.snslogintemplate.exception;
+package zip.hyeon.snslogintemplate.exception.example;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

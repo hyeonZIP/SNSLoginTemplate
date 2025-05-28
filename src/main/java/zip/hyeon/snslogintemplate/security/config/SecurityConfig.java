@@ -20,9 +20,9 @@ import zip.hyeon.snslogintemplate.security.oauth2.service.CustomOAuth2UserServic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() { // security 를 적용하지 않을 리소스
@@ -35,11 +35,10 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // csrf 비활성화, 쿠키 사용시, 활성화 필요
                 .formLogin(AbstractHttpConfigurer::disable) // 기본 로그인 비활성화
-                .sessionManagement(AbstractHttpConfigurer::disable) //
                 .logout(AbstractHttpConfigurer::disable) // 기본 로그아웃 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable) // 기본 인증 로그인 비활성화
-                .headers(c -> c.frameOptions(
-                        FrameOptionsConfig::disable).disable()) // X-Frame-Options 비활성화
+                .headers(headers -> headers.frameOptions(
+                        FrameOptionsConfig::disable)) // X-Frame-Options 비활성화
                 .sessionManagement(c ->
                         c.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용하지 않음
         ;
@@ -71,7 +70,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login/**").permitAll()
-                        .requestMatchers("/login-success").permitAll()
+                        .requestMatchers("/test/**").permitAll()
                         .anyRequest().authenticated()
                 );
 

@@ -17,9 +17,6 @@ public class JwtValidator {
 
     private final JwtKeyManager jwtKeyManager;
 
-    /**
-     * 토큰 디코딩
-     */
     public Claims getClaims(String token) {
         return Jwts.parser()
                 .verifyWith(jwtKeyManager.getSecretKey())

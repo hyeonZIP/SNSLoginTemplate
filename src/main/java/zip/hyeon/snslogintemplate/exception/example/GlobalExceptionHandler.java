@@ -1,4 +1,4 @@
-package zip.hyeon.snslogintemplate.exception;
+package zip.hyeon.snslogintemplate.exception.example;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -39,19 +39,19 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         // 1. 토큰 발급
         JwtProviderRequestDTO jwtProviderRequestDTO = JwtProviderRequestDTO.of(userId, userRole);
-        JwtProviderResponseDTO jwtProviderResponseDTO = jwtProvider.generateAccessTokenAndRefreshToken(jwtProviderRequestDTO);
+        JwtProviderResponseDTO jwtProviderResponseDTO = jwtService.generateAccessTokenAndRefreshToken(jwtProviderRequestDTO);
 
         log.info("Access Token = {}", jwtProviderResponseDTO.getAccessToken());
         log.info("Refresh Token = {}", jwtProviderResponseDTO.getRefreshToken());
 
-        // 2. RefreshToken 저장
+        // 2. RefreshToken 저장, 이미 있다면 덮어씌우기
         SaveRefreshTokenDTO saveRefreshTokenDTO = SaveRefreshTokenDTO.of(userId, jwtProviderResponseDTO.getRefreshToken());
-        jwtService.saveRefreshToken(saveRefreshTokenDTO);
+        jwtService.saveRefreshTokenForOAuth2Login(saveRefreshTokenDTO);
 
         // 3. response 에 Token 을 담은 Cookie 저장
         CookieUtils.setTokenCookie(jwtProviderResponseDTO, response);
 
         // 4. redirect uri 지정 (임시)
-        response.sendRedirect("http://localhost:8080/login-success");
+//        response.sendRedirect("http://localhost:8080/login-success");
     }
 }

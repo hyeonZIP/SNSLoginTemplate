@@ -40,4 +40,8 @@ public class RefreshTokenEntity extends BaseEntity {
                 .user(user)
                 .build();
     }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }

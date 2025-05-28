@@ -1,4 +1,4 @@
-package zip.hyeon.snslogintemplate.exception;
+package zip.hyeon.snslogintemplate.exception.example;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
